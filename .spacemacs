@@ -31,6 +31,8 @@ values."
      javascript
      html
      auto-completion
+     smex
+     (colors :variables colors-identifiers-mode t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -238,6 +240,8 @@ values."
    ;; escape on jk from insert mode
    evil-escape-key-sequence (kbd "jk")
 
+   auto-completion-enable-snippets-in-popup t
+
    ))
 
 (defun dotspacemacs/user-init ()
@@ -267,17 +271,33 @@ you should place your code here."
 
   (key-chord-mode 1)
   ;;(key-chord-define-global "jl" 'escape-add-semicolon-newline)
-  (key-chord-define evil-insert-state-map "j;" 'escape-add-semicolon-newline)
+  ;;(key-chord-define evil-insert-state-map "j;" 'escape-add-semicolon-newline)
+  (key-chord-define evil-insert-state-map "j;" 'escape-add-semicolon)
   (key-chord-define evil-insert-state-map "jl" 'escape-newline)
   (setq-default exec-path-from-shell-variables '("PATH" "MANPATH"))
   (setq js2-include-node-externs t)
   ;;(tab-always-indent nil)
   (setq-default tab-always-indent nil)
   (spacemacs/set-leader-keys "mgg" 'tern-find-definition)
+
+  (setq backup-directory-alist `(("." . "~/.saves")))
+  (setq backup-by-copying t)
+  (setq delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
   )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+(defun escape-add-semicolon ()
+  "Exit insert mode add semicolon at the end of line and opens new line blow"
+  (interactive)
+  (evil-escape)
+  (evil-end-of-line)
+  (evil-append 1)
+  (insert ";")
+  (evil-escape)
+  )
+
 (defun escape-add-semicolon-newline ()
   "Exit insert mode add semicolon at the end of line and opens new line blow"
   (interactive)
