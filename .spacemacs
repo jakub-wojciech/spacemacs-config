@@ -268,6 +268,10 @@ you should place your code here."
   (setq-default js-indent-level 2)
   (setq-default js2-strict-trailing-comma-warning nil)
 
+  ;;Smart case when doing search SPC /
+  (setq-default helm-ag-always-set-extra-option nil)
+  (setq-default helm-ag--extra-options "-S")
+
 
   (key-chord-mode 1)
   ;;(key-chord-define-global "jl" 'escape-add-semicolon-newline)
